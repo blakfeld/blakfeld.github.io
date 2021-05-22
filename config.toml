@@ -1,0 +1,8 @@
+baseURL = "http://blakfeld.github.io/"
+languageCode = "en-us"
+title = "Corwin Brown"
+theme = "beautifulhugo"
+
+# Theme Syntax Highlighting
+pygmentsCodeFences = true
+pygmentsUseClasses = true
