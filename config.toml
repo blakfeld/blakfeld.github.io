@@ -1,4 +1,4 @@
-baseURL = "http://blakfeld.github.io/"
+baseURL = "https://blakfeld.github.io/"
 languageCode = "en-us"
 title = "Corwin Brown"
 theme = "beautifulhugo"
