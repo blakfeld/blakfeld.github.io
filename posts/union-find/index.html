@@ -1,0 +1,157 @@
+<!doctype html><html lang=en itemscope itemtype=http://schema.org/WebPage><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1"><title>Union-Find - Corwin Brown</title><meta name=description content="Union-Find answers the question &ldquo;Are two nodes in the same group?&rdquo; so if we have something like A->B->C->D it&rsquo;s a way to ask &ldquo;Is D connected to A&rdquo;.
+Typically, a Union-Find instance itself does not store the objects in question themselves. Usually, each object is associated with a number from 0 to N, and that data is used by Union-Find.
+The API for Union-Find usually looks something like:
+ union(int p, int q) -> int  Links node p to node q."><script type=application/ld+json>{"@context":"http://schema.org","@type":"WebSite","name":"Corwin Brown","url":"https:\/\/blakfeld.github.io\/"}</script><script type=application/ld+json>{"@context":"http://schema.org","@type":"Organization","name":"","url":"https:\/\/blakfeld.github.io\/"}</script><script type=application/ld+json>{"@context":"http://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"item":{"@id":"https:\/\/blakfeld.github.io\/","name":"home"}},{"@type":"ListItem","position":3,"item":{"@id":"https:\/\/blakfeld.github.io\/posts\/union-find\/","name":"Union find"}}]}</script><script type=application/ld+json>{"@context":"http://schema.org","@type":"Article","author":{"name":""},"headline":"Union-Find","description":"Union-Find answers the question \u0026ldquo;Are two nodes in the same group?\u0026rdquo; so if we have something like A-\u0026gt;B-\u0026gt;C-\u0026gt;D it\u0026rsquo;s a way to ask \u0026ldquo;Is D connected to A\u0026rdquo;.\nTypically, a Union-Find instance itself does not store the objects in question themselves. Usually, each object is associated with a number from 0 to N, and that data is used by Union-Find.\nThe API for Union-Find usually looks something like:\n union(int p, int q) -\u0026gt; int  Links node p to node q.","inLanguage":"en","wordCount":1138,"datePublished":"2021-05-31T15:23:41","dateModified":"2021-05-31T15:23:41","image":"https:\/\/blakfeld.github.io\/","keywords":[""],"mainEntityOfPage":"https:\/\/blakfeld.github.io\/posts\/union-find\/","publisher":{"@type":"Organization","name":"https:\/\/blakfeld.github.io\/","logo":{"@type":"ImageObject","url":"https:\/\/blakfeld.github.io\/","height":60,"width":60}}}</script><meta property="og:title" content="Union-Find"><meta property="og:description" content="Union-Find answers the question &ldquo;Are two nodes in the same group?&rdquo; so if we have something like A->B->C->D it&rsquo;s a way to ask &ldquo;Is D connected to A&rdquo;.
+Typically, a Union-Find instance itself does not store the objects in question themselves. Usually, each object is associated with a number from 0 to N, and that data is used by Union-Find.
+The API for Union-Find usually looks something like:
+ union(int p, int q) -> int  Links node p to node q."><meta property="og:url" content="https://blakfeld.github.io/posts/union-find/"><meta property="og:type" content="website"><meta property="og:site_name" content="Corwin Brown"><meta name=twitter:title content="Union-Find"><meta name=twitter:description content="Union-Find answers the question &ldquo;Are two nodes in the same group?&rdquo; so if we have something like A->B->C->D it&rsquo;s a way to ask &ldquo;Is D connected to A&rdquo;.
+Typically, a …"><meta name=twitter:card content="summary"><meta name=generator content="Hugo 0.83.1"><link rel=alternate href=https://blakfeld.github.io/index.xml type=application/rss+xml title="Corwin Brown"><link rel=stylesheet href=https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css integrity=sha384-9eLZqc9ds8eNjO3TmqPeYcDj8n+Qfa4nuSiGYa6DjLNcv9BtN69ZIulL9+8CqC9Y crossorigin=anonymous><link rel=stylesheet href=https://use.fontawesome.com/releases/v5.5.0/css/all.css integrity=sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU crossorigin=anonymous><link rel=stylesheet href=https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css integrity=sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u crossorigin=anonymous><link rel=stylesheet href=https://blakfeld.github.io/css/main.css><link rel=stylesheet href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic"><link rel=stylesheet href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800"><link rel=stylesheet href=https://blakfeld.github.io/css/syntax.css><link rel=stylesheet href=https://blakfeld.github.io/css/codeblock.css><link rel=stylesheet href=https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.2/photoswipe.min.css integrity=sha384-h/L2W9KefUClHWaty3SLE5F/qvc4djlyR4qY3NUV5HGQBBW7stbcfff1+I/vmsHh crossorigin=anonymous><link rel=stylesheet href=https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.2/default-skin/default-skin.min.css integrity=sha384-iD0dNku6PYSIQLyfTOpB06F2KCZJAKLOThS5HRe8b3ibhdEQ6eKsFf/EeFxdOt5R crossorigin=anonymous></head><body><nav class="navbar navbar-default navbar-fixed-top navbar-custom"><div class=container-fluid><div class=navbar-header><button type=button class=navbar-toggle data-toggle=collapse data-target=#main-navbar>
+<span class=sr-only>Toggle navigation</span>
+<span class=icon-bar></span><span class=icon-bar></span><span class=icon-bar></span></button>
+<a class=navbar-brand href=https://blakfeld.github.io/>Corwin Brown</a></div><div class="collapse navbar-collapse" id=main-navbar><ul class="nav navbar-nav navbar-right"></ul></div></div></nav><div class=pswp tabindex=-1 role=dialog aria-hidden=true><div class=pswp__bg></div><div class=pswp__scroll-wrap><div class=pswp__container><div class=pswp__item></div><div class=pswp__item></div><div class=pswp__item></div></div><div class="pswp__ui pswp__ui--hidden"><div class=pswp__top-bar><div class=pswp__counter></div><button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+<button class="pswp__button pswp__button--share" title=Share></button>
+<button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+<button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button><div class=pswp__preloader><div class=pswp__preloader__icn><div class=pswp__preloader__cut><div class=pswp__preloader__donut></div></div></div></div></div><div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap"><div class=pswp__share-tooltip></div></div><button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)"></button>
+<button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)"></button><div class=pswp__caption><div class=pswp__caption__center></div></div></div></div></div><header class=header-section><div class="intro-header no-img"><div class=container><div class=row><div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1"><div class=posts-heading><h1>Union-Find</h1><hr class=small></div></div></div></div></div></header><div class=container role=main><div class=row><div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1"><article role=main class=blog-post><p>Union-Find answers the question &ldquo;Are two nodes in the same group?&rdquo;
+so if we have something like <code>A->B->C->D</code> it&rsquo;s a way to ask
+&ldquo;Is D connected to A&rdquo;.</p><p>Typically, a Union-Find instance itself does not store the objects
+in question themselves. Usually, each object is associated with a
+number from 0 to N, and that data is used by Union-Find.</p><p>The API for Union-Find usually looks something like:</p><ul><li><code>union(int p, int q) -> int</code><ul><li>Links node p to node q.</li></ul></li><li><code>find(int p) -> int</code><ul><li>Finds the root node for node p.</li></ul></li><li><code>connected(int p, int q) -> bool</code><ul><li>Tests if nodes p and q are connected (i.e. have the same root
+node)</li></ul></li><li><code>count() -> int</code><ul><li>Returns the number of unconnected components represented by the
+Union-Find instance.</li></ul></li></ul><p>It does this, by storing a few arrays internally. One representing
+the &ldquo;parents&rdquo; of each group (initially filled completely with unique
+values, because at the start each node is its own parent), and a
+&ldquo;rank&rdquo; array that tracks the size of each group (this is used for
+making decisions about weather to link p to q or q to p).</p><p>Let&rsquo;s say we create an instance of size 10, those arrays may
+initially look like:</p><pre><code>parents: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+rank:    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+</code></pre><p>Each index in parents represents a node, and it&rsquo;s value represents
+it&rsquo;s parent node&rsquo;s index. So if we call <code>union(2, 5)</code>, we would end
+up with something like this</p><pre><code>parents: [0, 1, 2, 3, 4, 2, 6, 7, 8, 9]
+rank:    [0, 0, 1, 0, 0, 0, 0, 0, 0, 0]
+</code></pre><p>Then we could call <code>union(2, 8)</code>:</p><pre><code>parents: [0, 1, 2, 3, 4, 2, 6, 7, 2, 9]
+rank:    [0, 0, 2, 0, 0, 0, 0, 0, 0, 0]
+</code></pre><p><code>union(4, 6)</code></p><pre><code>parents: [0, 1, 2, 3, 4, 2, 4, 7, 2, 9]
+rank:    [0, 0, 2, 0, 1, 0, 0, 0, 0, 0]
+</code></pre><p>Now, see what happens when we call <code>union(4, 2)</code></p><pre><code>parents: [0, 1, 2, 3, 2, 2, 4, 7, 2, 9]
+rank:    [0, 0, 3, 0, 1, 0, 0, 0, 0, 0]
+</code></pre><p>You&rsquo;ll notice we made 2 the parent. This is because 2 has a higher
+rank than 4. We do this to prevent large trees from being added as
+children to small trees, which could increase our traversal time.</p><p>There&rsquo;s one more optimization we could apply here, and that is path
+compression. This essentially flattens out the tree. None of the ops
+we&rsquo;ve don so far would&rsquo;ve triggered it, but let&rsquo;s see it in action
+with <code>union(9, 5)</code></p><pre><code>parents: [0, 1, 2, 3, 2, 2, 4, 7, 2, 2]
+rank:    [0, 0, 4, 0, 1, 0, 0, 0, 0, 0]
+</code></pre><p>The important thing to notice, is that index 9&rsquo;s value became 2,
+not 5. That is because 2 is 5&rsquo;s parent, so we&rsquo;ve flattened out
+the tree.</p><p>Let&rsquo;s look at each method in detail.</p><h3 id=union>Union</h3><p>Takes two parameters, p and q.</p><ol><li>First, find the root nodes of p and q.</li><li>Determine which node has the highest rank</li></ol><p>This is done by looking up that root node in the ranks array. If p
+has a higher rank, then p becomes the parent, otherwise q becomes
+the parent. If both are equal, then we pick p arbitrarily. In the
+case that both are equal, we ALSO increase the rank.</p><ol start=3><li>Decrease the connected component count.</li></ol><p>We&rsquo;ve just connected a component, meaning we now have fewer
+independent components.</p><div class=highlight><pre class=chroma><code class=language-python data-lang=python><span class=k>def</span> <span class=nf>union</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>p</span><span class=p>:</span> <span class=nb>int</span><span class=p>,</span> <span class=n>q</span><span class=p>:</span> <span class=nb>int</span><span class=p>)</span> <span class=o>-&gt;</span> <span class=bp>None</span><span class=p>:</span>
+    <span class=c1># Find p and q&#39;s root node.</span>
+    <span class=n>p_id</span> <span class=o>=</span> <span class=bp>self</span><span class=o>.</span><span class=n>find</span><span class=p>(</span><span class=n>p</span><span class=p>)</span>
+    <span class=n>q_id</span> <span class=o>=</span> <span class=bp>self</span><span class=o>.</span><span class=n>find</span><span class=p>(</span><span class=n>q</span><span class=p>)</span>
+
+    <span class=c1># If they are the same, then p and q are already unioned</span>
+    <span class=c1># together.</span>
+    <span class=k>if</span> <span class=n>p_id</span> <span class=o>==</span> <span class=n>q_id</span><span class=p>:</span>
+      <span class=k>return</span>
+
+    <span class=c1># Rank will contain the size of a tree at a particular root,</span>
+    <span class=c1># we want to join the smaller tree to the larger tree, as this</span>
+    <span class=c1># means we have to do less traversals on find operations.</span>
+    <span class=k>if</span> <span class=bp>self</span><span class=o>.</span><span class=n>_rank</span><span class=p>[</span><span class=n>p_id</span><span class=p>]</span> <span class=o>&gt;</span> <span class=bp>self</span><span class=o>.</span><span class=n>_rank</span><span class=p>[</span><span class=n>q_id</span><span class=p>]:</span>
+      <span class=bp>self</span><span class=o>.</span><span class=n>_parents</span><span class=p>[</span><span class=n>p_id</span><span class=p>]</span> <span class=o>=</span> <span class=n>q_id</span>
+    <span class=k>elif</span> <span class=bp>self</span><span class=o>.</span><span class=n>_rank</span><span class=p>[</span><span class=n>p_id</span><span class=p>]</span> <span class=o>&lt;</span> <span class=bp>self</span><span class=o>.</span><span class=n>_rank</span><span class=p>[</span><span class=n>q_id</span><span class=p>]:</span>
+      <span class=bp>self</span><span class=o>.</span><span class=n>_parents</span><span class=p>[</span><span class=n>q_id</span><span class=p>]</span> <span class=o>=</span> <span class=n>p_id</span>
+    <span class=k>else</span><span class=p>:</span>
+      <span class=bp>self</span><span class=o>.</span><span class=n>_parents</span><span class=p>[</span><span class=n>q_id</span><span class=p>]</span> <span class=o>=</span> <span class=n>p_id</span>
+      <span class=bp>self</span><span class=o>.</span><span class=n>_rank</span><span class=p>[</span><span class=n>p_id</span><span class=p>]</span> <span class=o>+=</span> <span class=mi>1</span>
+
+    <span class=c1># Since we&#39;ve done a union, we now have one fewer indpendent</span>
+    <span class=c1># component.</span>
+    <span class=bp>self</span><span class=o>.</span><span class=n>_count</span> <span class=o>-=</span> <span class=mi>1</span>
+</code></pre></div><h3 id=find>Find</h3><p>This is done by traversing the array. We look up the parent value
+of <code>p</code>, by using <code>p</code> as an index. So if <code>p</code> is 2, we&rsquo;ll look at
+array index 2. Let&rsquo;s say the value at array index 2 is 3. This means
+that index 2 is not a root, so we set <code>p = 3</code>, and go to index 3.
+The value in index 3, <em>is</em> 3, so we&rsquo;ve found a root and we can
+return.</p><div class=highlight><pre class=chroma><code class=language-python data-lang=python><span class=k>def</span> <span class=nf>find</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>p</span><span class=p>:</span> <span class=nb>int</span><span class=p>)</span> <span class=o>-&gt;</span> <span class=nb>int</span><span class=p>:</span>
+  <span class=c1># Traverse up the tree until we find a root. A root is denoted by</span>
+  <span class=c1># having the same value as it&#39;s index.</span>
+  <span class=k>while</span> <span class=n>p</span> <span class=o>!=</span> <span class=bp>self</span><span class=o>.</span><span class=n>_parents</span><span class=p>[</span><span class=n>p</span><span class=p>]:</span>
+    <span class=n>p</span> <span class=o>=</span> <span class=bp>self</span><span class=o>.</span><span class=n>_parents</span><span class=p>[</span><span class=n>p</span><span class=p>]</span>
+
+  <span class=k>return</span> <span class=n>p</span>
+</code></pre></div><p>Path compression is also done at this step. Let&rsquo;s say we had to
+follow a chain of indexes to finally find a root value. While we
+traverse that array, we would set each value to be equal to its
+parent, so if we had <code>A->B->C->D</code>, and we performed <code>find(D)</code>,
+the root value is <code>A</code>. So while we&rsquo;re traversing the array to find
+<code>A</code>, we would set the parents of <code>B</code> and <code>C</code> to <code>A</code>. Leaving us
+with:</p><pre><code>B -&gt; A &lt;- C
+     ^
+     |
+     D
+</code></pre><div class=highlight><pre class=chroma><code class=language-python data-lang=python><span class=c1># Find with Path Compression!</span>
+<span class=k>def</span> <span class=nf>find</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>p</span><span class=p>:</span> <span class=nb>int</span><span class=p>)</span> <span class=o>-&gt;</span> <span class=nb>int</span><span class=p>:</span>
+  <span class=c1># Same basic logic as above, but this time we flatten out the tree</span>
+  <span class=c1># as we traverse it!</span>
+  <span class=k>while</span> <span class=n>p</span> <span class=o>!=</span> <span class=bp>self</span><span class=o>.</span><span class=n>_parents</span><span class=p>[</span><span class=n>p</span><span class=p>]:</span>
+    <span class=n>tmp</span> <span class=o>=</span> <span class=bp>self</span><span class=o>.</span><span class=n>_parents</span><span class=p>[</span><span class=n>p</span><span class=p>]</span>
+    <span class=bp>self</span><span class=o>.</span><span class=n>_parents</span><span class=p>[</span><span class=n>p</span><span class=p>]</span> <span class=o>=</span> <span class=bp>self</span><span class=o>.</span><span class=n>_parents</span><span class=p>[</span><span class=bp>self</span><span class=o>.</span><span class=n>_parents</span><span class=p>[</span><span class=n>p</span><span class=p>]]</span>
+    <span class=n>p</span> <span class=o>=</span> <span class=n>tmp</span>
+
+  <span class=k>return</span> <span class=n>p</span>
+</code></pre></div><h3 id=connected>Connected</h3><p>This is easy, we just call find on p and q and check if they&rsquo;re
+root nodes are the same.</p><div class=highlight><pre class=chroma><code class=language-python data-lang=python><span class=k>def</span> <span class=nf>connected</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>p</span><span class=p>:</span> <span class=nb>int</span><span class=p>,</span> <span class=n>q</span><span class=p>:</span> <span class=nb>int</span><span class=p>)</span> <span class=o>-&gt;</span> <span class=nb>bool</span><span class=p>:</span>
+  <span class=c1># Do both nodes have the same root?</span>
+  <span class=k>return</span> <span class=bp>self</span><span class=o>.</span><span class=n>find</span><span class=p>(</span><span class=n>p</span><span class=p>)</span> <span class=o>==</span> <span class=bp>self</span><span class=o>.</span><span class=n>find</span><span class=p>(</span><span class=n>q</span><span class=p>)</span>
+</code></pre></div><h2 id=applications>Applications</h2><ul><li>Find connected components in a graph.</li><li>Used as part of <strong>Kruskal&rsquo;s Algorithm</strong> for detecting cycles in
+a graph</li></ul><h2 id=implementation>Implementation</h2><p>Here&rsquo;s a basic Python3 implementation of Union-Find</p><div class=highlight><pre class=chroma><code class=language-python data-lang=python><span class=k>class</span> <span class=nc>UnionFind</span><span class=p>:</span>
+    <span class=k>def</span> <span class=fm>__init__</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>size</span><span class=p>):</span>
+        <span class=bp>self</span><span class=o>.</span><span class=n>_count</span> <span class=o>=</span> <span class=n>size</span>
+        <span class=bp>self</span><span class=o>.</span><span class=n>_parents</span> <span class=o>=</span> <span class=p>{}</span>
+        <span class=bp>self</span><span class=o>.</span><span class=n>_rank</span> <span class=o>=</span> <span class=p>{}</span>
+        <span class=k>for</span> <span class=n>i</span> <span class=ow>in</span> <span class=nb>range</span><span class=p>(</span><span class=n>size</span><span class=p>):</span>
+            <span class=bp>self</span><span class=o>.</span><span class=n>_parents</span><span class=p>[</span><span class=n>i</span><span class=p>]</span> <span class=o>=</span> <span class=n>i</span>
+            <span class=bp>self</span><span class=o>.</span><span class=n>_rank</span><span class=p>[</span><span class=n>i</span><span class=p>]</span> <span class=o>=</span> <span class=mi>0</span>
+
+    <span class=nd>@property</span>
+    <span class=k>def</span> <span class=nf>count</span><span class=p>(</span><span class=bp>self</span><span class=p>):</span>
+        <span class=k>return</span> <span class=bp>self</span><span class=o>.</span><span class=n>_count</span>
+
+    <span class=k>def</span> <span class=nf>union</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>p</span><span class=p>:</span> <span class=nb>int</span><span class=p>,</span> <span class=n>q</span><span class=p>:</span> <span class=nb>int</span><span class=p>)</span> <span class=o>-&gt;</span> <span class=bp>None</span><span class=p>:</span>
+        <span class=n>p_id</span> <span class=o>=</span> <span class=bp>self</span><span class=o>.</span><span class=n>find</span><span class=p>(</span><span class=n>p</span><span class=p>)</span>
+        <span class=n>q_id</span> <span class=o>=</span> <span class=bp>self</span><span class=o>.</span><span class=n>find</span><span class=p>(</span><span class=n>q</span><span class=p>)</span>
+        <span class=k>if</span> <span class=n>p_id</span> <span class=o>==</span> <span class=n>q_id</span><span class=p>:</span>
+            <span class=k>return</span>
+
+        <span class=k>if</span> <span class=bp>self</span><span class=o>.</span><span class=n>_rank</span><span class=p>[</span><span class=n>p_id</span><span class=p>]</span> <span class=o>&lt;</span> <span class=bp>self</span><span class=o>.</span><span class=n>_rank</span><span class=p>[</span><span class=n>q_id</span><span class=p>]:</span>
+            <span class=bp>self</span><span class=o>.</span><span class=n>_parents</span><span class=p>[</span><span class=n>p_id</span><span class=p>]</span> <span class=o>=</span> <span class=bp>self</span><span class=o>.</span><span class=n>_parents</span><span class=p>[</span><span class=n>q_id</span><span class=p>]</span>
+        <span class=k>elif</span> <span class=bp>self</span><span class=o>.</span><span class=n>_rank</span><span class=p>[</span><span class=n>p_id</span><span class=p>]</span> <span class=o>&gt;</span> <span class=bp>self</span><span class=o>.</span><span class=n>_rank</span><span class=p>[</span><span class=n>q_id</span><span class=p>]:</span>
+            <span class=bp>self</span><span class=o>.</span><span class=n>_parents</span><span class=p>[</span><span class=n>q_id</span><span class=p>]</span> <span class=o>=</span> <span class=bp>self</span><span class=o>.</span><span class=n>_parents</span><span class=p>[</span><span class=n>p_id</span><span class=p>]</span>
+        <span class=k>else</span><span class=p>:</span>
+            <span class=bp>self</span><span class=o>.</span><span class=n>_parents</span><span class=p>[</span><span class=n>q_id</span><span class=p>]</span> <span class=o>=</span> <span class=bp>self</span><span class=o>.</span><span class=n>_parents</span><span class=p>[</span><span class=n>p_id</span><span class=p>]</span>
+            <span class=bp>self</span><span class=o>.</span><span class=n>_rank</span><span class=p>[</span><span class=n>p_id</span><span class=p>]</span> <span class=o>+=</span> <span class=mi>1</span>
+
+        <span class=bp>self</span><span class=o>.</span><span class=n>_count</span> <span class=o>-=</span> <span class=mi>1</span>
+
+    <span class=k>def</span> <span class=nf>find</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>p</span><span class=p>:</span> <span class=nb>int</span><span class=p>)</span> <span class=o>-&gt;</span> <span class=nb>int</span><span class=p>:</span>
+        <span class=c1># Path Compression</span>
+        <span class=c1># As we traverse the tree, we flatten it out by setting</span>
+        <span class=c1># each node to it&#39;s parent&#39;s parent.</span>
+        <span class=k>while</span> <span class=n>p</span> <span class=o>!=</span> <span class=bp>self</span><span class=o>.</span><span class=n>_parents</span><span class=p>[</span><span class=n>p</span><span class=p>]:</span>
+            <span class=n>tmp</span> <span class=o>=</span> <span class=bp>self</span><span class=o>.</span><span class=n>_parents</span><span class=p>[</span><span class=n>p</span><span class=p>]</span>
+            <span class=bp>self</span><span class=o>.</span><span class=n>_parents</span><span class=p>[</span><span class=n>p</span><span class=p>]</span> <span class=o>=</span> <span class=bp>self</span><span class=o>.</span><span class=n>_parents</span><span class=p>[</span><span class=bp>self</span><span class=o>.</span><span class=n>_parents</span><span class=p>[</span><span class=n>p</span><span class=p>]]</span>
+            <span class=n>p</span> <span class=o>=</span> <span class=n>tmp</span>
+
+        <span class=k>return</span> <span class=n>p</span>
+
+    <span class=k>def</span> <span class=nf>connected</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>p</span><span class=p>:</span> <span class=nb>int</span><span class=p>,</span> <span class=n>q</span><span class=p>:</span> <span class=nb>int</span><span class=p>)</span> <span class=o>-&gt;</span> <span class=nb>bool</span><span class=p>:</span>
+        <span class=k>return</span> <span class=bp>self</span><span class=o>.</span><span class=n>find</span><span class=p>(</span><span class=n>p</span><span class=p>)</span> <span class=o>==</span> <span class=bp>self</span><span class=o>.</span><span class=n>find</span><span class=p>(</span><span class=n>q</span><span class=p>)</span>
+</code></pre></div></article><ul class="pager blog-pager"></ul></div></div></div><footer><div class=container><div class=row><div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1"><ul class="list-inline text-center footer-links"></ul><p class="credits copyright text-muted">&nbsp;&bull;&nbsp;&copy;
+2021
+&nbsp;&bull;&nbsp;
+<a href=https://blakfeld.github.io/>Corwin Brown</a></p><p class="credits theme-by text-muted"><a href=https://gohugo.io>Hugo v0.83.1</a> powered &nbsp;&bull;&nbsp; Theme <a href=https://github.com/halogenica/beautifulhugo>Beautiful Hugo</a> adapted from <a href=https://deanattali.com/beautiful-jekyll/>Beautiful Jekyll</a></p></div></div></div></footer><script src=https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.js integrity=sha384-K3vbOmF2BtaVai+Qk37uypf7VrgBubhQreNQe9aGsz9lB63dIFiQVlJbr92dw2Lx crossorigin=anonymous></script><script src=https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/contrib/auto-render.min.js integrity=sha384-kmZOZB5ObwgQnS/DuDg6TScgOiWWBiVt0plIRkZCmE6rDZGrEOQeHM5PcHi+nyqe crossorigin=anonymous></script><script src=https://code.jquery.com/jquery-1.12.4.min.js integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin=anonymous></script><script src=https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js integrity=sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa crossorigin=anonymous></script><script src=https://blakfeld.github.io/js/main.js></script><script>renderMathInElement(document.body)</script><script src=https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.2/photoswipe.min.js integrity=sha384-QELNnmcmU8IR9ZAykt67vGr9/rZJdHbiWi64V88fCPaOohUlHCqUD/unNN0BXSqy crossorigin=anonymous></script><script src=https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.2/photoswipe-ui-default.min.js integrity=sha384-m67o7SkQ1ALzKZIFh4CiTA8tmadaujiTa9Vu+nqPSwDOqHrDmxLezTdFln8077+q crossorigin=anonymous></script><script src=https://blakfeld.github.io/js/load-photoswipe.js></script></body></html>
